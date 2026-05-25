@@ -58,8 +58,15 @@ class BatteryMonitor(Node):
         self.swarm_leader = self.swarm_state.index(max(self.swarm_state))
         self.get_logger().info(f"Swarm Leader: drone_{self.swarm_leader}")
 
-        if( battery > 30 ):
-            self.get_logger().info(f"Drone {drone_id} battery level is: {battery}%")
+        # if( battery > 30 ):
+            # self.get_logger().info(f"Drone {drone_id} battery level is: {battery}%")
+        # if( battery <= 30 and battery > 15 ):
+            # self.get_logger().warn(f"Drone {drone_id} battery level is: {battery}%")
+        # if( battery <= 15 ):
+            # self.get_logger().error(f"Drone {drone_id} battery level is: {battery}%")
+
+        self.get_logger().info(f"d1: {self.swarm_state[1]}, d2: {self.swarm_state[2]}, d3: {self.swarm_state[3]}")
+
         if( battery <= 30 and battery > 15 ):
             self.get_logger().warn(f"Drone {drone_id} battery level is: {battery}%")
         if( battery <= 15 ):
