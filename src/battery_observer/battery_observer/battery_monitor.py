@@ -53,6 +53,10 @@ class BatteryMonitor(Node):
             self.drone_subs.append(sub)
 
     def listener_callback(self, msg, drone_id):
+        # This branch prints the logs in a clear, concise and colorful way.
+        # The warns/errors are only shown through color. 
+
+
         CLR_GREEN = '\033[92m'
         CLR_YELLOW = '\033[93m'
         CLR_RED = '\033[91m'
@@ -73,7 +77,7 @@ class BatteryMonitor(Node):
         
             # Determine the color based on individual battery level
             if battery > 30.0:
-                color = ""  # Default terminal color (or CLR_GREEN if you want)
+                color = CLR_GREEN  # Default terminal color (or CLR_GREEN if you want)
             elif 15.0 < battery <= 30.0:
                 color = CLR_YELLOW
             else:
