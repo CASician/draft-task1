@@ -53,27 +53,39 @@ class BatteryMonitor(Node):
             self.drone_subs.append(sub)
 
     def listener_callback(self, msg, drone_id):
+        CLR_GREEN = '\033[92m'
+        CLR_YELLOW = '\033[93m'
+        CLR_RED = '\033[91m'
+        CLR_RESET = '\033[0m'
+
+
         battery = msg.data
         self.swarm_state[drone_id] = battery
         self.swarm_leader = self.swarm_state.index(max(self.swarm_state))
         self.get_logger().info(f"Swarm Leader: drone_{self.swarm_leader}")
 
-        # if( battery > 30 ):
-            # self.get_logger().info(f"Drone {drone_id} battery level is: {battery}%")
-        # if( battery <= 30 and battery > 15 ):
-            # self.get_logger().warn(f"Drone {drone_id} battery level is: {battery}%")
-        # if( battery <= 15 ):
-            # self.get_logger().error(f"Drone {drone_id} battery level is: {battery}%")
+        # Initialize an empty list to hold the formatted string for each drone
+        formatted_drones = []
 
-        self.get_logger().info(f"d1: {self.swarm_state[1]}, d2: {self.swarm_state[2]}, d3: {self.swarm_state[3]}")
+        # Loop through our 3 drones (Indices 1, 2, and 3 in your swarm_state array)
+        for i in range(1, 4):
+            battery = self.swarm_state[i]
+        
+            # Determine the color based on individual battery level
+            if battery > 30.0:
+                color = ""  # Default terminal color (or CLR_GREEN if you want)
+            elif 15.0 < battery <= 30.0:
+                color = CLR_YELLOW
+            else:
+                color = CLR_RED
+            
+            # Format this specific drone and wrap it safely with RESET
+            drone_str = f"{color}d{i}: {battery}{CLR_RESET if color else ''}"
+            formatted_drones.append(drone_str)
 
-        if( battery <= 30 and battery > 15 ):
-            self.get_logger().warn(f"Drone {drone_id} battery level is: {battery}%")
-        if( battery <= 15 ):
-            self.get_logger().error(f"Drone {drone_id} battery level is: {battery}%")
-
-    # def listener_callback(self, msg):
-        # self.get_logger().info('I heard: "%s"' % msg.data)
+        # Combine them all into one nice, clean log statement
+        # This automatically matches whatever combination of Green/Yellow/Red currently exists
+        self.get_logger().info(", ".join(formatted_drones)) 
 
 
 def main(args=None):
