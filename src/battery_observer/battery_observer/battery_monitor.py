@@ -53,6 +53,8 @@ class BatteryMonitor(Node):
             self.drone_subs.append(sub)
 
     def listener_callback(self, msg, drone_id):
+        # This branch prints the swarm leader and logs when drones battery is lower than 30. 
+
         battery = msg.data
         self.swarm_state[drone_id] = battery
         self.swarm_leader = self.swarm_state.index(max(self.swarm_state))
