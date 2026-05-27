@@ -86,7 +86,7 @@ class BatteryMonitor(Node):
             # Format this specific drone and wrap it safely with RESET
             drone_str = f"{color}d{i}: {battery}{CLR_RESET if color else ''}"
             formatted_drones.append(drone_str)
-
+            #comando
         # Combine them all into one nice, clean log statement
         # This automatically matches whatever combination of Green/Yellow/Red currently exists
         self.get_logger().info(", ".join(formatted_drones)) 
